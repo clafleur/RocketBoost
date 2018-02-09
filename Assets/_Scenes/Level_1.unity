@@ -43,7 +43,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -89,7 +89,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000002, guid: ddfb5136784d48b49aa43e090ec8f92e,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -2106,7 +2107,7 @@ Prefab:
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c5919284b2cb8c2439996bc65c0dc38a, type: 2}
+      objectReference: {fileID: 2100000, guid: d3cf20251e8b50b4883909a601240eee, type: 2}
     - target: {fileID: 1478870075002696, guid: 4f423d0d55ed39648b8d1c7fdcc4b288, type: 2}
       propertyPath: m_Name
       value: LandingPad
@@ -2114,6 +2115,10 @@ Prefab:
     - target: {fileID: 4909498880275274, guid: 4f423d0d55ed39648b8d1c7fdcc4b288, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 10.177
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478870075002696, guid: 4f423d0d55ed39648b8d1c7fdcc4b288, type: 2}
+      propertyPath: m_TagString
+      value: Finish
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f423d0d55ed39648b8d1c7fdcc4b288, type: 2}
