@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Rocket : MonoBehaviour {
+public class Rocket : MonoBehaviour
+{
 
     [SerializeField] private float rotationThrust = 150.0f;
     [SerializeField] private float mainThrust = 50.0f;
+    [SerializeField] private AudioClip mainEngine;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip successSound;
 
     private AudioSource audioSource;
     private Rigidbody rigidBody;
+
+    private int currentSceneNumber;
+    private Scene currentScene;
 
     enum State { Alive, Dying, Transcending }
     State state = State.Alive;
@@ -24,13 +31,13 @@ public class Rocket : MonoBehaviour {
     {
         if (state == State.Alive)
         {
-            Thrust();
-            Rotation();
+            RespondToThrustInput();
+            RespondToRotateInput();
         }
 
     }
 
-    private void Rotation()
+    private void RespondToRotateInput()
     {
         rigidBody.freezeRotation = true;
         float rotationSpeed = rotationThrust * Time.deltaTime;
@@ -47,19 +54,24 @@ public class Rocket : MonoBehaviour {
         rigidBody.freezeRotation = false;
     }
 
-    private void Thrust()
+    private void RespondToThrustInput()
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rigidBody.AddRelativeForce(Vector3.up * mainThrust);
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
+            ApplyThrust();
         }
         else
         {
             audioSource.Stop();
+        }
+    }
+
+    private void ApplyThrust()
+    {
+        rigidBody.AddRelativeForce(Vector3.up * mainThrust);
+        if (!audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(mainEngine);
         }
     }
 
@@ -74,14 +86,28 @@ public class Rocket : MonoBehaviour {
             case "Friendly":
                 break;
             case "Finish":
-                state = State.Transcending;
-                Invoke("LoadNextLevel", 1.5f);
+                StartSuccessSequence();
                 break;
             default:
-                state = State.Dying;
-                Invoke("LoadFirstLevel", 1.5f);
+                StartDeathSequence();
                 break;
         }
+    }
+
+    private void StartSuccessSequence()
+    {
+        state = State.Transcending;
+        audioSource.Stop();
+        audioSource.PlayOneShot(successSound);
+        Invoke("LoadNextLevel", 1.5f);
+    }
+
+    private void StartDeathSequence()
+    {
+        state = State.Dying;
+        audioSource.Stop();
+        audioSource.PlayOneShot(deathSound);
+        Invoke("LoadLevelAfterDeath", 1.5f);
     }
 
     private void LoadNextLevel()
@@ -92,5 +118,19 @@ public class Rocket : MonoBehaviour {
     private void LoadFirstLevel()
     {
         SceneManager.LoadScene(0);
+    }
+
+    private void LoadLevelAfterDeath()
+    {
+        currentScene = SceneManager.GetActiveScene();
+        currentSceneNumber = currentScene.buildIndex;
+        if (currentSceneNumber != 1)
+        {
+            LoadFirstLevel();
+        }
+        else
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 }
