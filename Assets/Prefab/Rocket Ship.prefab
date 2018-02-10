@@ -501,6 +501,7 @@ MonoBehaviour:
   mainEngine: {fileID: 8300000, guid: 6687fb24746f3ff429d9aecee4fff6da, type: 3}
   deathSound: {fileID: 8300000, guid: eb150e1dd71dec64d99867085e71e101, type: 3}
   successSound: {fileID: 8300000, guid: 10f94df201647eb40b7904abb051ef04, type: 3}
+  levelLoadDelay: 1.5
   mainEnginParticle: {fileID: 198733333741434214}
   crashParticle: {fileID: 198151480350158540}
   successParticle: {fileID: 198020633162638486}
