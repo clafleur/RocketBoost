@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
-
+    public bool collisionsDisabled = false;
     [SerializeField] private float rotationThrust = 150.0f;
     [SerializeField] private float mainThrust = 50.0f;
     [SerializeField] private AudioClip mainEngine;
@@ -47,14 +47,8 @@ public class Rocket : MonoBehaviour
         rigidBody.freezeRotation = true;
         float rotationSpeed = rotationThrust * Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Rotate(Vector3.forward * rotationSpeed);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(-Vector3.forward * rotationSpeed);
-        }
+        float horizontalInput = Input.GetAxis("Horizontal");
+        transform.Rotate(new Vector3(0f,0f, -horizontalInput) * rotationSpeed);
 
         rigidBody.freezeRotation = false;
     }
@@ -84,7 +78,7 @@ public class Rocket : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (state != State.Alive)
+        if (state != State.Alive || collisionsDisabled)
         {
             return;
         }
